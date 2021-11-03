@@ -48,7 +48,7 @@ type obsoleteUnmarshaler interface {
 // If an error is returned by MarshalYAML, the marshaling procedure stops
 // and returns with the provided error.
 type Marshaler interface {
-	MarshalYAML() (interface{}, error)
+	MarshalYAML() (*Node, error)
 }
 
 // Unmarshal decodes the first document found within the in byte slice
