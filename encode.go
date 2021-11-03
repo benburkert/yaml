@@ -137,15 +137,15 @@ func (e *encoder) marshal(tag string, in reflect.Value) {
 		e.stringv(tag, reflect.ValueOf(value.String()))
 		return
 	case Marshaler:
-		v, err := value.MarshalYAML()
+		n, err := value.MarshalYAML()
 		if err != nil {
 			fail(err)
 		}
-		if v == nil {
+		if n == nil {
 			e.nilv()
 			return
 		}
-		e.marshal(tag, reflect.ValueOf(v))
+		e.marshal(tag, reflect.ValueOf(n))
 		return
 	case encoding.TextMarshaler:
 		text, err := value.MarshalText()

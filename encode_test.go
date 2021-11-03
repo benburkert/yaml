@@ -608,8 +608,12 @@ func (o marshalerType) MarshalText() ([]byte, error) {
 	panic("MarshalText called on type with MarshalYAML")
 }
 
-func (o marshalerType) MarshalYAML() (interface{}, error) {
-	return o.value, nil
+func (o marshalerType) MarshalYAML() (*yaml.Node, error) {
+	var n yaml.Node
+	if err := n.Encode(o.value); err != nil {
+		return nil, err
+	}
+	return &n, nil
 }
 
 type marshalerValue struct {
@@ -636,7 +640,7 @@ func (s *S) TestMarshalerWholeDocument(c *C) {
 
 type failingMarshaler struct{}
 
-func (ft *failingMarshaler) MarshalYAML() (interface{}, error) {
+func (ft *failingMarshaler) MarshalYAML() (*yaml.Node, error) {
 	return nil, failingErr
 }
 
